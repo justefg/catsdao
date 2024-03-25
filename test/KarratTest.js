@@ -16,9 +16,6 @@ describe("Karrat", function () {
     governor = await hre.ethers.deployContract("KarratGovernor", [
       token.address,
       timelock.address,
-      addr1.address,
-      addr2.address,
-      addr3.address,
       token.address
     ]);
     await governor.deployed();
@@ -35,7 +32,7 @@ describe("Karrat", function () {
 
     const transferCalldata = token.interface.encodeFunctionData("transfer", [recipient.address, ONE]);
 
-    const description = "Proposal #1: Transfer 100 tokens";
+    const description = "Proposal #1: Transfer 1 token";
     const targets = [token.address]; // The token contract is the target of the proposal
     const values = [0]; // No ether is sent along with the call
     const calldatas = [transferCalldata]; // The encoded function call

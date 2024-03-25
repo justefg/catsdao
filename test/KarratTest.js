@@ -43,8 +43,7 @@ describe("Karrat", function () {
     console.log(proposalId)
     expect(await governor.state(proposalId)).to.eq(0);
 
-    // await network.provider.send("evm_increaseTime", [2 * 24 * 60 * 60]); // 2 days, adjust according to your GovernorSettings
-    await network.provider.send("evm_mine");
+    await network.provider.send("evm_increaseTime", [2 * 24 * 60 * 60]); // 2 days, adjust according to your GovernorSettings
     await network.provider.send("evm_mine");
 
     console.log("clock:", await governor.clock())
@@ -56,8 +55,7 @@ describe("Karrat", function () {
     await castVoteTx.wait();
 
     // voting finished
-    await network.provider.send("evm_mine");
-    await network.provider.send("evm_mine");
+    await network.provider.send("evm_increaseTime", [7 * 24 * 60 * 60]); // 7 days, adjust according to your GovernorSettings
     await network.provider.send("evm_mine");
     console.log("clock:", await governor.clock())
     console.log("snapshot:", await governor.proposalSnapshot(proposalId))

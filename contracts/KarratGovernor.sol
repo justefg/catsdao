@@ -33,7 +33,7 @@ contract KarratGovernor is
         address karratTokenContract
     )
         Governor("KarratGovernor")
-        GovernorSettings(1 /* 1 day */, 3 /* 1 week */, 0)
+        GovernorSettings(86400 /* 1 day */, 604800 /* 1 week */, 0)
         GovernorVotes(_token)
         GovernorTimelockControl(_timelock)
     {
@@ -171,5 +171,9 @@ contract KarratGovernor is
 
     function quorum(uint256 timepoint) public view override(Governor) returns (uint256) {
         return 1;
+    }
+
+    function clock() public view virtual override(Governor, GovernorVotes) returns (uint48) {
+        return uint48(block.timestamp);
     }
 }

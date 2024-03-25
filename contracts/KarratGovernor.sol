@@ -9,7 +9,6 @@ import "@openzeppelin/contracts/governance/Governor.sol";
 import "@openzeppelin/contracts/governance/extensions/GovernorSettings.sol";
 import "@openzeppelin/contracts/governance/extensions/GovernorCountingSimple.sol";
 import "@openzeppelin/contracts/governance/extensions/GovernorVotes.sol";
-import "@openzeppelin/contracts/governance/extensions/GovernorVotesQuorumFraction.sol";
 import "@openzeppelin/contracts/governance/extensions/GovernorTimelockControl.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 
@@ -19,7 +18,6 @@ interface IERC20 {
 
 // percentage off calculate with
 contract KarratGovernor is
-    AccessControl,
     GovernorSettings,
     GovernorCountingSimple,
     GovernorVotes,
@@ -45,7 +43,6 @@ contract KarratGovernor is
 
     function propose(
         address[] memory targets,
-        // values 0 needs to be the total number of tokens
         uint256[] memory values,
         bytes[] memory calldatas,
         string memory description
@@ -65,7 +62,7 @@ contract KarratGovernor is
      */
     function supportsInterface(
         bytes4 interfaceId
-    ) public view override(AccessControl, Governor) returns (bool) {
+    ) public view override(Governor) returns (bool) {
         return super.supportsInterface(interfaceId);
     }
 
@@ -165,10 +162,14 @@ contract KarratGovernor is
     }
 
     function _getVotes(
-        address /* account, */
-        uint256 /* timepoint, */
-        bytes memory /*params*/
+        address,
+        uint256,
+        bytes memory
     ) internal view virtual override(Governor, GovernorVotes) returns (uint256) {
+        return 1;
+    }
+
+    function quorum(uint256 timepoint) public view override(Governor) returns (uint256) {
         return 1;
     }
 }
